@@ -22,7 +22,7 @@ def register():
         elif db.execute(
             'SELECT id FROM user WHERE username = ?', (username,)
         ).fetchone() is not None:
-            error = 'User {} is already registered.', format(username)
+            error = 'User {} is already registered.'. format(username)
 
         if error is None:
             db.execute(
@@ -30,7 +30,7 @@ def register():
                 (username, generate_password_hash(password))
             )
             db.commit()
-            return redirect(url_for('auth_login'))
+            return redirect(url_for('auth.login'))
 
         flash(error)
 
@@ -41,7 +41,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        gb = get_db()
+        db = get_db()
         error = None
 
         user = db.execute(
